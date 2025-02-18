@@ -7,24 +7,50 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:tests_sandbox/main.dart';
+import 'package:tests_sandbox/views/text_overflow_example.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
+    expect(find.text('Count: 0'), findsOneWidget);
+
     // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('+'), findsOneWidget);
+    expect(find.text('-'), findsOneWidget);
 
     // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    for (var i = 0; i < 10; i++) {
+      await tester.tap(find.text('+'));
+      await tester.pump();
+    }
+
+    expect(find.text('Count: 10'), findsOneWidget);
+  });
+
+  testWidgets('Verifica se ocorre overflow de texto em telas pequenas', (
+    WidgetTester tester,
+  ) async {
+    // Inicializa o widget
+    await tester.pumpWidget(MaterialApp(home: TextOverflowExample()));
+
+    // Define o tamanho da tela como pequeno
+    await tester.binding.setSurfaceSize(const Size(300, 600));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verifica que o texto ainda é encontrado (mas truncado)
+    expect(find.textContaining('Esse é um texto muito longo'), findsOneWidget);
+
+    // Define o tamanho da tela como grande
+    await tester.binding.setSurfaceSize(const Size(800, 1200));
+    await tester.pump();
+
+    // Verifica que o texto completo está presente
+    expect(
+      find.textContaining('Vamos verificar se ele quebra ou dá erro.'),
+      findsOneWidget,
+    );
   });
 }
