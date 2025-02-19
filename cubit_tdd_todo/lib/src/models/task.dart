@@ -5,11 +5,7 @@ class Task extends Equatable {
   final String description;
   final bool check;
 
-  const Task({
-    required this.id,
-    required this.description,
-    required this.check,
-  });
+  const Task({required this.id, required this.description, this.check = false});
 
   @override
   List<Object?> get props => [id, description, check];
