@@ -1,7 +1,7 @@
-abstract class RemoteArticleEvent {
-  const RemoteArticleEvent();
+abstract class RemoteArticlesEvent {
+  const RemoteArticlesEvent();
 }
 
-class GetArticles extends RemoteArticleEvent {
+class GetArticles extends RemoteArticlesEvent {
   const GetArticles();
 }
