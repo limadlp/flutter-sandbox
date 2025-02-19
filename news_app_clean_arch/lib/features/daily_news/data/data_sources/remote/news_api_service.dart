@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:news_app_clean_arch/features/core/constants/constants.dart';
+import 'package:news_app_clean_arch/core/constants/constants.dart';
 import 'package:news_app_clean_arch/features/daily_news/data/models/article.dart';
 import 'package:retrofit/retrofit.dart';
 

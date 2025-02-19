@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:news_app_clean_arch/features/core/constants/constants.dart';
-import 'package:news_app_clean_arch/features/core/resources/data_state.dart';
+import 'package:news_app_clean_arch/core/constants/constants.dart';
+import 'package:news_app_clean_arch/core/resources/data_state.dart';
 import 'package:news_app_clean_arch/features/daily_news/data/data_sources/remote/news_api_service.dart';
 import 'package:news_app_clean_arch/features/daily_news/data/models/article.dart';
 import 'package:news_app_clean_arch/features/daily_news/domain/repositories/article_repository.dart';
