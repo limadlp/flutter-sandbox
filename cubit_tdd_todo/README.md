@@ -1,16 +1,47 @@
 # cubit_tdd_todo
 
-A new Flutter project.
+A Flutter project demonstrating Test-Driven Development (TDD) principles with a Todo List application using the Cubit state management pattern. This project was developed as part of the Flutterando Masterclass course on testing.
 
-## Getting Started
+## Project Structure
 
-This project is a starting point for a Flutter application.
+The project follows a clean architecture approach with the following components:
 
-A few resources to get you started if this is your first Flutter project:
+### Models
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- `Task`: Core data model representing a todo item with id, description and check status
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### State Management
+
+- `BoardState`: Defines different states for the todo list (Loading, Getted, Empty, Failure)
+- `BoardCubit`: Handles business logic and state management for the todo list operations
+
+### Data Layer
+
+- `BoardRepository`: Abstract interface for data operations
+- `IsarBoardRepository`: Implementation using Isar database
+- `IsarDatasource`: Handles direct database operations
+- `TaskModel`: Database model for Isar
+
+## Features
+
+- Create new todo items
+- Mark todos as complete/incomplete
+- Remove todos
+- Persist todos using Isar database
+- Full test coverage following TDD practices
+
+## Testing
+
+The project includes comprehensive tests:
+
+- Unit tests for the Cubit logic
+- Repository tests
+- Database integration tests
+
+## Tech Stack
+
+- Flutter
+- Bloc/Cubit for state management
+- Isar for local database
+- Mocktail for mocking in tests
+- Equatable for value comparisons
