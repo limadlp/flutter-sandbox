@@ -8,5 +8,9 @@ class TaskModel {
   String description = '';
   bool check = false;
 
-  TaskModel({required this.description, required this.check});
+  TaskModel({
+    this.id = Isar.autoIncrement,
+    this.description = '',
+    this.check = false,
+  });
 }

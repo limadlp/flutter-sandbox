@@ -69,10 +69,10 @@ TaskModel _taskModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = TaskModel(
-    check: reader.readBool(offsets[0]),
-    description: reader.readString(offsets[1]),
+    check: reader.readBoolOrNull(offsets[0]) ?? false,
+    description: reader.readStringOrNull(offsets[1]) ?? '',
+    id: id,
   );
-  object.id = id;
   return object;
 }
 
@@ -84,9 +84,9 @@ P _taskModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? '') as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
