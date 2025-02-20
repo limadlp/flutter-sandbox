@@ -21,47 +21,44 @@ class BoardCubit extends Cubit<BoardState> {
   }
 
   Future<void> addTask(Task newTask) async {
-    final state = this.state;
-    if (state is! GettedTasksBoardState) return;
-    final tasks = state.tasks.toList();
+    final tasks = _getTasks();
+    if (tasks == null) return;
     tasks.add(newTask);
-    try {
-      await repository.update(tasks);
-      emit(GettedTasksBoardState(tasks: tasks));
-    } catch (e) {
-      emit(FailureBoardState('Error'));
-    }
+    await emitTasks(tasks);
   }
 
   Future<void> removeTask(Task task) async {
-    final state = this.state;
-    if (state is! GettedTasksBoardState) return;
-    final tasks = state.tasks.toList();
+    final tasks = _getTasks();
+    if (tasks == null) return;
     tasks.remove(task);
-    try {
-      await repository.update(tasks);
-      emit(GettedTasksBoardState(tasks: tasks));
-    } catch (e) {
-      emit(FailureBoardState('Error'));
-    }
+    await emitTasks(tasks);
   }
 
   Future<void> checkTask(Task newTask) async {
-    final state = this.state;
-    if (state is! GettedTasksBoardState) return;
-    final tasks = state.tasks.toList();
+    final tasks = _getTasks();
+    if (tasks == null) return;
     final index = tasks.indexOf(newTask);
     tasks[index] = newTask.copyWith(check: !newTask.check);
-    try {
-      await repository.update(tasks);
-      emit(GettedTasksBoardState(tasks: tasks));
-    } catch (e) {
-      emit(FailureBoardState('Error'));
-    }
+    await emitTasks(tasks);
   }
 
   @visibleForTesting
   void addTasks(List<Task> tasks) {
     emit(GettedTasksBoardState(tasks: tasks));
+  }
+
+  List<Task>? _getTasks() {
+    final state = this.state;
+    if (state is! GettedTasksBoardState) return null;
+    return state.tasks.toList();
+  }
+
+  Future<void> emitTasks(List<Task> tasks) async {
+    try {
+      await repository.update(tasks);
+      emit(GettedTasksBoardState(tasks: tasks));
+    } catch (e) {
+      emit(FailureBoardState('Error'));
+    }
   }
 }
