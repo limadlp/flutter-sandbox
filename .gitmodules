@@ -1,0 +1,3 @@
+[submodule "crud_mvvm_supabase"]
+	path = crud_mvvm_supabase
+	url = https://github.com/limadlp/crud_mvvm_supabase
