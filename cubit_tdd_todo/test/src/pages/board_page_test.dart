@@ -15,9 +15,23 @@ void main() {
     repository = BoardRepositoryMock();
     cubit = BoardCubit(repository);
   });
-  testWidgets('board page ...', (tester) async {
+  testWidgets('board page with all tasks', (tester) async {
+    when(() => repository.fetch()).thenAnswer((_) async => []);
     await tester.pumpWidget(
       BlocProvider.value(value: cubit, child: MaterialApp(home: BoardPage())),
     );
+    expect(find.byKey(const Key("EmptyState")), findsOneWidget);
+    await tester.pump(const Duration(seconds: 2));
+    expect(find.byKey(const Key("GettedState")), findsOneWidget);
+  });
+
+  testWidgets('board page with failure state', (tester) async {
+    when(() => repository.fetch()).thenThrow(Exception('Error'));
+    await tester.pumpWidget(
+      BlocProvider.value(value: cubit, child: MaterialApp(home: BoardPage())),
+    );
+    expect(find.byKey(const Key("EmptyState")), findsOneWidget);
+    await tester.pump(const Duration(seconds: 2));
+    expect(find.byKey(const Key("FailureState")), findsOneWidget);
   });
 }
