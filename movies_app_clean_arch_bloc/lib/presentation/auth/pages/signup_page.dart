@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app_clean_arch_bloc/common/helpers/navigation/app_navigation.dart';
 import 'package:movies_app_clean_arch_bloc/core/configs/theme/app_colors.dart';
-import 'package:movies_app_clean_arch_bloc/presentation/auth/pages/signup_page.dart';
+import 'package:movies_app_clean_arch_bloc/presentation/auth/pages/signin_page.dart';
 import 'package:reactive_button/reactive_button.dart';
 
-class SigninPage extends StatelessWidget {
-  const SigninPage({super.key});
+class SignupPage extends StatelessWidget {
+  const SignupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class SigninPage extends StatelessWidget {
 
   Widget _signInText() {
     return const Text(
-      'Sign In',
+      'Sign Up',
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
     );
   }
@@ -73,9 +73,9 @@ class SigninPage extends StatelessWidget {
       text: TextSpan(
         style: const TextStyle(fontSize: 16),
         children: [
-          const TextSpan(text: 'Don\'t have an account? '),
+          const TextSpan(text: 'Already have an account? '),
           TextSpan(
-            text: 'Sign Up',
+            text: 'Sign In',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.blue,
@@ -83,7 +83,7 @@ class SigninPage extends StatelessWidget {
             recognizer:
                 TapGestureRecognizer()
                   ..onTap = () {
-                    AppNavigator.push(context, const SignupPage());
+                    AppNavigator.push(context, const SigninPage());
                   },
           ),
         ],
