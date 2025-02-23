@@ -2,11 +2,17 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app_clean_arch_bloc/common/helpers/navigation/app_navigation.dart';
 import 'package:movies_app_clean_arch_bloc/core/configs/theme/app_colors.dart';
+import 'package:movies_app_clean_arch_bloc/data/auth/models/signup_req_params.dart';
+import 'package:movies_app_clean_arch_bloc/domain/auth/usecases/signup_usecase.dart';
 import 'package:movies_app_clean_arch_bloc/presentation/auth/pages/signin_page.dart';
+import 'package:movies_app_clean_arch_bloc/service_locator.dart';
 import 'package:reactive_button/reactive_button.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+  SignupPage({super.key});
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,7 @@ class SignupPage extends StatelessWidget {
             _emailField(),
             _passwordField(),
             const SizedBox(height: 30),
-            _signInButton(),
+            _signUpButton(),
             _signUpText(context),
           ],
         ),
@@ -40,6 +46,7 @@ class SignupPage extends StatelessWidget {
 
   Widget _emailField() {
     return TextField(
+      controller: _emailController,
       decoration: const InputDecoration(
         hintText: 'Email',
         prefixIcon: Icon(Icons.email),
@@ -49,6 +56,7 @@ class SignupPage extends StatelessWidget {
 
   Widget _passwordField() {
     return TextField(
+      controller: _passwordController,
       decoration: const InputDecoration(
         hintText: 'Password',
         prefixIcon: Icon(Icons.lock),
@@ -58,11 +66,18 @@ class SignupPage extends StatelessWidget {
     );
   }
 
-  Widget _signInButton() {
+  Widget _signUpButton() {
     return ReactiveButton(
-      title: 'Sign In',
+      title: 'Sign Up',
       activeColor: AppColors.primary,
-      onPressed: () async {},
+      onPressed: () async {
+        await sl<SignupUsecase>().call(
+          params: SignupReqParams(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          ),
+        );
+      },
       onSuccess: () {},
       onFailure: (String error) {},
     );

@@ -1,12 +1,13 @@
 import 'package:dartz/dartz.dart';
+
+import 'package:movies_app_clean_arch_bloc/core/usecase/usecase.dart';
 import 'package:movies_app_clean_arch_bloc/data/auth/models/signup_req_params.dart';
-import 'package:movies_app_clean_arch_bloc/data/auth/sources/auth_api_service.dart';
 import 'package:movies_app_clean_arch_bloc/domain/auth/repositories/auth_repository.dart';
 import 'package:movies_app_clean_arch_bloc/service_locator.dart';
 
-class AuthRepositoryImpl implements AuthRepository {
+class SignupUsecase extends UseCase<Either, SignupReqParams> {
   @override
-  Future<Either> signup(SignupReqParams params) async {
-    return await sl<AuthApiService>().signup(params);
+  Future<Either> call({SignupReqParams? params}) {
+    return sl<AuthRepository>().signup(params!);
   }
 }
