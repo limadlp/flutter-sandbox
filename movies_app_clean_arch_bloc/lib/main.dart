@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app_clean_arch_bloc/core/configs/theme/app_theme.dart';
 import 'package:movies_app_clean_arch_bloc/presentation/splash/bloc/splash_cubit.dart';
 import 'package:movies_app_clean_arch_bloc/presentation/splash/pages/splash_page.dart';
+import 'package:movies_app_clean_arch_bloc/service_locator.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupServiceLocator();
   runApp(const MyApp());
 }
 
