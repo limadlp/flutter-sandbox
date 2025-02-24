@@ -1,10 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app_clean_arch_bloc/common/helpers/message/display_message.dart';
 import 'package:movies_app_clean_arch_bloc/common/helpers/navigation/app_navigation.dart';
 import 'package:movies_app_clean_arch_bloc/core/configs/theme/app_colors.dart';
 import 'package:movies_app_clean_arch_bloc/data/auth/models/signup_req_params.dart';
 import 'package:movies_app_clean_arch_bloc/domain/auth/usecases/signup_usecase.dart';
 import 'package:movies_app_clean_arch_bloc/presentation/auth/pages/signin_page.dart';
+import 'package:movies_app_clean_arch_bloc/presentation/home/pages/home_page.dart';
 import 'package:movies_app_clean_arch_bloc/service_locator.dart';
 import 'package:reactive_button/reactive_button.dart';
 
@@ -29,7 +31,7 @@ class SignupPage extends StatelessWidget {
             _emailField(),
             _passwordField(),
             const SizedBox(height: 30),
-            _signUpButton(),
+            _signUpButton(context),
             _signUpText(context),
           ],
         ),
@@ -66,7 +68,7 @@ class SignupPage extends StatelessWidget {
     );
   }
 
-  Widget _signUpButton() {
+  Widget _signUpButton(BuildContext context) {
     return ReactiveButton(
       title: 'Sign Up',
       activeColor: AppColors.primary,
@@ -78,8 +80,12 @@ class SignupPage extends StatelessWidget {
           ),
         );
       },
-      onSuccess: () {},
-      onFailure: (String error) {},
+      onSuccess: () {
+        AppNavigator.pushAndRemove(context, HomePage());
+      },
+      onFailure: (String error) {
+        DisplayMessage.errorMessage(error, context);
+      },
     );
   }
 
@@ -98,7 +104,7 @@ class SignupPage extends StatelessWidget {
             recognizer:
                 TapGestureRecognizer()
                   ..onTap = () {
-                    AppNavigator.push(context, const SigninPage());
+                    AppNavigator.push(context, SigninPage());
                   },
           ),
         ],

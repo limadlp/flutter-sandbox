@@ -1,12 +1,26 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app_clean_arch_bloc/common/helpers/message/display_message.dart';
 import 'package:movies_app_clean_arch_bloc/common/helpers/navigation/app_navigation.dart';
 import 'package:movies_app_clean_arch_bloc/core/configs/theme/app_colors.dart';
+import 'package:movies_app_clean_arch_bloc/data/auth/models/signin_req_params.dart';
+import 'package:movies_app_clean_arch_bloc/domain/auth/usecases/signin_usecase.dart';
 import 'package:movies_app_clean_arch_bloc/presentation/auth/pages/signup_page.dart';
+import 'package:movies_app_clean_arch_bloc/presentation/home/pages/home_page.dart';
+import 'package:movies_app_clean_arch_bloc/service_locator.dart';
 import 'package:reactive_button/reactive_button.dart';
 
-class SigninPage extends StatelessWidget {
+class SigninPage extends StatefulWidget {
   const SigninPage({super.key});
+
+  @override
+  State<SigninPage> createState() => _SigninPageState();
+}
+
+class _SigninPageState extends State<SigninPage> {
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +37,7 @@ class SigninPage extends StatelessWidget {
             _emailField(),
             _passwordField(),
             const SizedBox(height: 30),
-            _signInButton(),
+            _signInButton(context),
             _signUpText(context),
           ],
         ),
@@ -40,6 +54,7 @@ class SigninPage extends StatelessWidget {
 
   Widget _emailField() {
     return TextField(
+      controller: _emailController,
       decoration: const InputDecoration(
         hintText: 'Email',
         prefixIcon: Icon(Icons.email),
@@ -49,6 +64,7 @@ class SigninPage extends StatelessWidget {
 
   Widget _passwordField() {
     return TextField(
+      controller: _passwordController,
       decoration: const InputDecoration(
         hintText: 'Password',
         prefixIcon: Icon(Icons.lock),
@@ -58,13 +74,27 @@ class SigninPage extends StatelessWidget {
     );
   }
 
-  Widget _signInButton() {
+  Widget _signInButton(BuildContext context) {
     return ReactiveButton(
       title: 'Sign In',
       activeColor: AppColors.primary,
-      onPressed: () async {},
-      onSuccess: () {},
-      onFailure: (String error) {},
+      onPressed: () async {
+        String email = _emailController.text.trim();
+        String password = _passwordController.text.trim();
+
+        SigninReqParams params = SigninReqParams(
+          email: email,
+          password: password,
+        );
+
+        await sl<SigninUsecase>().call(params: params);
+      },
+      onSuccess: () {
+        AppNavigator.pushAndRemove(context, HomePage());
+      },
+      onFailure: (String error) {
+        DisplayMessage.errorMessage(error, context);
+      },
     );
   }
 
