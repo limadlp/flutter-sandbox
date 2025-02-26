@@ -6,8 +6,8 @@ import 'package:movies_app_clean_arch_bloc/service_locator.dart';
 
 class SigninUsecase extends UseCase<Either, SigninReqParams> {
   @override
-  Future<Either> call(SigninReqParams params) async {
-    if (params.email.isEmpty || params.password.isEmpty) {
+  Future<Either> call({SigninReqParams? params}) async {
+    if (params!.email.isEmpty || params.password.isEmpty) {
       return Left("Email e senha não podem estar vazios.");
     }
 

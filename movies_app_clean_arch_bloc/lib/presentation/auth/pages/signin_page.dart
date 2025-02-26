@@ -81,7 +81,7 @@ class _SigninPageState extends State<SigninPage> {
       activeColor: AppColors.primary,
       onPressed: () async {
         Either result = await sl<SigninUsecase>().call(
-          SigninReqParams(
+          params: SigninReqParams(
             email: _emailController.text,
             password: _passwordController.text,
           ),

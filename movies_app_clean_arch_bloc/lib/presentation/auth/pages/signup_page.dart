@@ -74,7 +74,7 @@ class SignupPage extends StatelessWidget {
       activeColor: AppColors.primary,
       onPressed: () async {
         return await sl<SignupUsecase>().call(
-          SignupReqParams(
+          params: SignupReqParams(
             email: _emailController.text,
             password: _passwordController.text,
           ),

@@ -1,9 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:movies_app_clean_arch_bloc/core/network/dio_client.dart';
 import 'package:movies_app_clean_arch_bloc/core/network/api_client.dart';
-import 'package:movies_app_clean_arch_bloc/data/auth/repositories/auth_repository.dart';
+import 'package:movies_app_clean_arch_bloc/data/auth/repositories/auth_repository_impl.dart';
 import 'package:movies_app_clean_arch_bloc/data/auth/sources/auth_api_service.dart';
 import 'package:movies_app_clean_arch_bloc/domain/auth/repositories/auth_repository.dart';
+import 'package:movies_app_clean_arch_bloc/domain/auth/usecases/is_logged_in_usecase.dart';
 import 'package:movies_app_clean_arch_bloc/domain/auth/usecases/signin_usecase.dart';
 import 'package:movies_app_clean_arch_bloc/domain/auth/usecases/signup_usecase.dart';
 
@@ -15,4 +16,5 @@ void setupServiceLocator() {
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
   sl.registerSingleton<SignupUsecase>(SignupUsecase());
   sl.registerSingleton<SigninUsecase>(SigninUsecase());
+  sl.registerSingleton<IsLoggedInUsecase>(IsLoggedInUsecase());
 }
