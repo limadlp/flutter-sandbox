@@ -7,7 +7,7 @@ import 'package:movies_app_clean_arch_bloc/service_locator.dart';
 
 class SignupUsecase extends UseCase<Either, SignupReqParams> {
   @override
-  Future<Either> call({SignupReqParams? params}) {
+  Future<Either> call(SignupReqParams? params) async {
     return sl<AuthRepository>().signup(params!);
   }
 }

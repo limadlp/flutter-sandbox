@@ -36,9 +36,14 @@ class AuthApiServiceImpl implements AuthApiService {
         ApiUrl.signin,
         data: params.toMap(),
       );
-      return Right(response.data);
+
+      if (response.data != null) {
+        return Right(response.data);
+      } else {
+        return Left("Resposta do servidor é nula.");
+      }
     } on ApiException catch (e) {
-      return Left(e.response!.data['message']);
+      return Left(e.response?.data['message'] ?? "Erro desconhecido");
     }
   }
 }

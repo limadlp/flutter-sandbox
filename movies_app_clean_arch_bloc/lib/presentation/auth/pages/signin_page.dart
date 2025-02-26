@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' show Either;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app_clean_arch_bloc/common/helpers/message/display_message.dart';
@@ -79,20 +80,19 @@ class _SigninPageState extends State<SigninPage> {
       title: 'Sign In',
       activeColor: AppColors.primary,
       onPressed: () async {
-        String email = _emailController.text.trim();
-        String password = _passwordController.text.trim();
-
-        SigninReqParams params = SigninReqParams(
-          email: email,
-          password: password,
+        Either result = await sl<SigninUsecase>().call(
+          SigninReqParams(
+            email: _emailController.text,
+            password: _passwordController.text,
+          ),
         );
 
-        await sl<SigninUsecase>().call(params: params);
+        return result;
       },
       onSuccess: () {
         AppNavigator.pushAndRemove(context, HomePage());
       },
-      onFailure: (String error) {
+      onFailure: (error) {
         DisplayMessage.errorMessage(error, context);
       },
     );

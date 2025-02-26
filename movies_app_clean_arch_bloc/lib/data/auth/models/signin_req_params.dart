@@ -6,4 +6,7 @@ class SigninReqParams {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{'email': email, 'password': password};
   }
+
+  @override
+  String toString() => 'SigninReqParams(email: $email, password: $password)';
 }
