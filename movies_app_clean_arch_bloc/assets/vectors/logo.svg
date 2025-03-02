@@ -1,0 +1,11 @@
+<svg
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  width="140"
+  height="30"
+  viewBox="0 0 140 30"
+>
+  <text x="10" y="24" font-family="Arial, sans-serif" font-size="24" font-weight="bold">
+    <tspan fill="white">Movie</tspan><tspan fill="#FF3D00">app</tspan>
+  </text>
+</svg>
