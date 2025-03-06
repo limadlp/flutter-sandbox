@@ -14,7 +14,7 @@ class DioClient implements ApiClient {
           sendTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 10),
         ),
-      )..interceptors.addAll([LoggerInterceptor()]);
+      )..interceptors.addAll([AuthorizationInterceptor(), LoggerInterceptor()]);
 
   // GET METHOD
   @override

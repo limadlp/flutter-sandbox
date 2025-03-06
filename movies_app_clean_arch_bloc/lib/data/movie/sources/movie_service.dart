@@ -15,7 +15,7 @@ class MovieApiServiceImpl implements MovieService {
       var response = await sl<ApiClient>().get(ApiUrl.trendingMovies);
       return Right(response.data);
     } on ApiException catch (e) {
-      return Left(e.response!.data['message']);
+      return Left(e.message);
     }
   }
 }

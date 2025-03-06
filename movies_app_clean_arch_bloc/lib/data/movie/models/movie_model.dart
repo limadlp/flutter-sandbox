@@ -1,11 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'dart:convert';
 
 class MovieModel {
   final int? id;
   final String? title;
   final String? posterPath;
-  final String? backdropPath;
+  //final String? backdropPath;
   final String? overview;
   final String? releaseDate;
   final double? voteAverage;
@@ -22,7 +23,7 @@ class MovieModel {
     required this.id,
     required this.title,
     required this.posterPath,
-    required this.backdropPath,
+    //required this.backdropPath,
     required this.overview,
     required this.releaseDate,
     required this.voteAverage,
@@ -40,54 +41,52 @@ class MovieModel {
     return <String, dynamic>{
       'id': id,
       'title': title,
-      'posterPath': posterPath,
-      'backdropPath': backdropPath,
+      'poster_path': posterPath,
+      //'backdrop_path': backdropPath,
       'overview': overview,
-      'releaseDate': releaseDate,
-      'voteAverage': voteAverage,
-      'voteCount': voteCount,
+      'release_date': releaseDate,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
       'popularity': popularity,
       'adult': adult,
-      'originalLanguage': originalLanguage,
-      'originalTitle': originalTitle,
-      'genreIds': genreIds,
+      'original_language': originalLanguage,
+      'original_title': originalTitle,
+      'genre_ids': genreIds,
       'video': video,
-      'mediaType': mediaType,
+      'media_type': mediaType,
     };
   }
 
   factory MovieModel.fromMap(Map<String, dynamic> map) {
     return MovieModel(
-      id: map['id'] != null ? map['id'] as int : null,
-      title: map['title'] != null ? map['title'] as String : null,
-      posterPath:
-          map['posterPath'] != null ? map['posterPath'] as String : null,
-      backdropPath:
-          map['backdropPath'] != null ? map['backdropPath'] as String : null,
-      overview: map['overview'] != null ? map['overview'] as String : null,
-      releaseDate:
-          map['releaseDate'] != null ? map['releaseDate'] as String : null,
-      voteAverage:
-          map['voteAverage'] != null ? map['voteAverage'] as double : null,
-      voteCount: map['voteCount'] != null ? map['voteCount'] as int : null,
-      popularity:
-          map['popularity'] != null ? map['popularity'] as double : null,
-      adult: map['adult'] != null ? map['adult'] as bool : null,
-      originalLanguage:
-          map['originalLanguage'] != null
-              ? map['originalLanguage'] as String
-              : null,
-      originalTitle:
-          map['originalTitle'] != null ? map['originalTitle'] as String : null,
-      genreIds:
-          map['genreIds'] != null ? List<int>.from(map['genreIds']) : null,
-      video: map['video'] != null ? map['video'] as bool : null,
-      mediaType: map['mediaType'] != null ? map['mediaType'] as String : null,
+      id: map['id'] as int?,
+      title: map['title'] as String?,
+      posterPath: map['poster_path'] as String?,
+      //backdropPath: map['backdrop_path'] as String?,
+      overview: map['overview'] as String?,
+      releaseDate: map['release_date'] as String?,
+      voteAverage: map['vote_average']?.toDouble(),
+      voteCount: map['vote_count'] as int?,
+      popularity: map['popularity']?.toDouble(),
+      adult: map['adult'] as bool?,
+      originalLanguage: map['original_language'] as String?,
+      originalTitle: map['original_title'] as String?,
+      genreIds: List<int>.from(map['genre_ids'] ?? []),
+      video: map['video'] as bool?,
+      mediaType: map['media_type'] as String?,
     );
   }
 
-  String toJson() => json.encode(toMap());
+  factory MovieModel.fromJson(String source) {
+    try {
+      return MovieModel.fromMap(json.decode(source) as Map<String, dynamic>);
+    } catch (e) {
+      if (source.startsWith('{')) {
+        source = source.trim();
+      }
+      return MovieModel.fromMap(json.decode(source) as Map<String, dynamic>);
+    }
+  }
 
-  factory MovieModel.fromJson(String source) =>
-      MovieModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  String toJson() => json.encode(toMap());
 }

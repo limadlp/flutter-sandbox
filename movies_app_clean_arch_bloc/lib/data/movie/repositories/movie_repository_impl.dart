@@ -9,12 +9,18 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Either> getTrendingMovies() async {
     var returnedData = await sl<MovieService>().getTrendingMovies();
-    return returnedData.fold((error) => Left(error), (data) {
-      var movies =
-          List.from(data['content']).map((movie) {
-            return MovieMapper.toEntity(MovieModel.fromJson(movie));
-          }).toList();
-      return Right(movies);
-    });
+
+    return returnedData.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        var movies =
+            List.from(data['content']).map((item) {
+              return MovieMapper.toEntity(MovieModel.fromMap(item));
+            }).toList();
+        return Right(movies);
+      },
+    );
   }
 }

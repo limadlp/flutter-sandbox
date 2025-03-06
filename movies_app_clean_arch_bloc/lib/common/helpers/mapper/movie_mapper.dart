@@ -7,7 +7,7 @@ class MovieMapper {
       id: movie.id,
       title: movie.title,
       posterPath: movie.posterPath,
-      backdropPath: movie.backdropPath,
+      //backdropPath: movie.backdropPath,
       overview: movie.overview,
       releaseDate: movie.releaseDate,
       voteAverage: movie.voteAverage,
