@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies_app_clean_arch_bloc/common/widgets/appbar/basic_app_bar.dart';
 import 'package:movies_app_clean_arch_bloc/core/configs/assets/app_vectors.dart';
+import 'package:movies_app_clean_arch_bloc/presentation/home/widgets/trending_text_widget.dart';
 import 'package:movies_app_clean_arch_bloc/presentation/home/widgets/trending_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,10 +15,12 @@ class HomePage extends StatelessWidget {
         hideBack: true,
         title: SvgPicture.asset(AppVectors.logo, fit: BoxFit.fitWidth),
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [TrendingMoviesWidget()],
+      body: const SingleChildScrollView(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [TrendingTextWidget(), TrendingMoviesWidget()],
+          ),
         ),
       ),
     );

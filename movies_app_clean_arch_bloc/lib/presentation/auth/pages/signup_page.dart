@@ -20,7 +20,7 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        minimum: EdgeInsets.only(top: 100, right: 16, left: 16),
+        minimum: const EdgeInsets.only(top: 100, right: 16, left: 16),
         child: Column(
           spacing: 20,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -81,7 +81,7 @@ class SignupPage extends StatelessWidget {
         );
       },
       onSuccess: () {
-        AppNavigator.pushAndRemove(context, HomePage());
+        AppNavigator.pushAndRemove(context, const HomePage());
       },
       onFailure: (String error) {
         DisplayMessage.errorMessage(error, context);
@@ -104,7 +104,7 @@ class SignupPage extends StatelessWidget {
             recognizer:
                 TapGestureRecognizer()
                   ..onTap = () {
-                    AppNavigator.push(context, SigninPage());
+                    AppNavigator.push(context, const SigninPage());
                   },
           ),
         ],

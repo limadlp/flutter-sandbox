@@ -22,7 +22,7 @@ class AuthApiServiceImpl implements AuthApiService {
       if (response.data != null) {
         return Right(response.data);
       } else {
-        return Left("Resposta do servidor é nula.");
+        return const Left("Resposta do servidor é nula.");
       }
     } on ApiException catch (e) {
       return Left(e.response?.data['message'] ?? "Erro desconhecido");
@@ -40,7 +40,7 @@ class AuthApiServiceImpl implements AuthApiService {
       if (response.data != null) {
         return Right(response.data);
       } else {
-        return Left("Resposta do servidor é nula.");
+        return const Left("Resposta do servidor é nula.");
       }
     } on ApiException catch (e) {
       return Left(e.response?.data['message'] ?? "Erro desconhecido");

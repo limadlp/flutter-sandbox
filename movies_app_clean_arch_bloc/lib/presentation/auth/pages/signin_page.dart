@@ -27,7 +27,7 @@ class _SigninPageState extends State<SigninPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        minimum: EdgeInsets.only(top: 100, right: 16, left: 16),
+        minimum: const EdgeInsets.only(top: 100, right: 16, left: 16),
         child: Column(
           spacing: 20,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -90,7 +90,7 @@ class _SigninPageState extends State<SigninPage> {
         return result;
       },
       onSuccess: () {
-        AppNavigator.pushAndRemove(context, HomePage());
+        AppNavigator.pushAndRemove(context, const HomePage());
       },
       onFailure: (error) {
         DisplayMessage.errorMessage(error, context);

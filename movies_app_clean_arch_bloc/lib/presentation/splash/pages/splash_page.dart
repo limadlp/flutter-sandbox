@@ -16,7 +16,7 @@ class SplashPage extends StatelessWidget {
       body: BlocListener<SplashCubit, SplashState>(
         listener: (context, state) {
           if (state is Unauthenticated) {
-            AppNavigator.pushReplacement(context, SigninPage());
+            AppNavigator.pushReplacement(context, const SigninPage());
           } else if (state is Authenticated) {
             AppNavigator.pushReplacement(context, const HomePage());
           }
@@ -24,7 +24,7 @@ class SplashPage extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(AppImages.splashBackground),
                   fit: BoxFit.cover,
@@ -37,8 +37,8 @@ class SplashPage extends StatelessWidget {
                   begin: Alignment.center,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xff1a1b20).withValues(alpha: 0),
-                    Color(0xff1a1b20),
+                    const Color(0xff1a1b20).withValues(alpha: 0),
+                    const Color(0xff1a1b20),
                   ],
                 ),
               ),

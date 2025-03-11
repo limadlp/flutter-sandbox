@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SplashCubit()..appStarted()),
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        scrollBehavior: MaterialScrollBehavior().copyWith(
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
           dragDevices: {
             PointerDeviceKind.mouse,
             PointerDeviceKind.touch,

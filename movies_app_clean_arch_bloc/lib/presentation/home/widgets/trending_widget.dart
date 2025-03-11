@@ -15,7 +15,7 @@ class TrendingMoviesWidget extends StatelessWidget {
       child: BlocBuilder<TrendingCubit, TrendingState>(
         builder: (context, state) {
           if (state is TrendingMoviesLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (state is TrendingMoviesLoaded) {
             return FanCarouselImageSlider.sliderType1(

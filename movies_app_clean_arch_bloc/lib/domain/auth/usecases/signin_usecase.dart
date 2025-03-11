@@ -8,7 +8,7 @@ class SigninUsecase extends UseCase<Either, SigninReqParams> {
   @override
   Future<Either> call({SigninReqParams? params}) async {
     if (params!.email.isEmpty || params.password.isEmpty) {
-      return Left("Email e senha não podem estar vazios.");
+      return const Left("Email e senha não podem estar vazios.");
     }
 
     Either result = await sl<AuthRepository>().signin(params);
