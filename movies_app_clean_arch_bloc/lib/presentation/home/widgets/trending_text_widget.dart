@@ -5,9 +5,12 @@ class TrendingTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'Trending 🔥',
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+    return const Padding(
+      padding: EdgeInsets.only(top: 12.0, left: 16.0),
+      child: Text(
+        'Trendings 🔥',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+      ),
     );
   }
 }
