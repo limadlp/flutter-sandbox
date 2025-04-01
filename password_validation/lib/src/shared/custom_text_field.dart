@@ -70,7 +70,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
-            suffix: suffix,
+            suffixIcon: suffix,
           ),
         ),
       ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:password_validation/src/shared/colors_app.dart';
-import 'package:password_validation/src/shared/custom_text_field.dart';
+import 'package:password_validation/src/shared/custom_text_field_pwd.dart';
 
 class ValidationPage extends StatelessWidget {
   const ValidationPage({super.key});
@@ -37,18 +37,16 @@ class ValidationPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 26),
-                CustomTextField(
+                CustomTextFieldPwd(
                   label: 'Senha',
                   backgroundColor: Colors.white,
                   controller: TextEditingController(),
-                  obscureText: false,
                 ),
                 SizedBox(height: 26),
-                CustomTextField(
+                CustomTextFieldPwd(
                   label: 'Confirmar senha',
                   backgroundColor: Colors.white,
                   controller: TextEditingController(),
-                  obscureText: true,
                 ),
                 SizedBox(height: 37),
                 Container(height: 146, color: Colors.grey),
