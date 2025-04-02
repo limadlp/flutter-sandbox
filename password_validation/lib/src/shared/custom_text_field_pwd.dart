@@ -27,6 +27,7 @@ class _CustomTextFieldPwdState extends State<CustomTextFieldPwd> {
       label: label,
       backgroundColor: backgroundColor,
       obscureText: obscureText,
+      controller: controller,
       suffix: IconButton(
         icon: Icon(
           obscureText
