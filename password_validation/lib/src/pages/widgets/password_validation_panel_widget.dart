@@ -30,11 +30,41 @@ class _PasswordValidationPanelWidgetState
           ),
         ),
 
-        PasswordDotValidationWidget(label: 'Mínimo de 8 caracteres'),
-        PasswordDotValidationWidget(label: '1 letra maiúscula'),
-        PasswordDotValidationWidget(label: '1 ou mais números'),
-        PasswordDotValidationWidget(label: '1 ou mais letras'),
-        PasswordDotValidationWidget(label: 'Senha igual a confirma senha'),
+        PasswordDotValidationWidget(
+          label: 'Mínimo de 8 caracteres',
+          key: ValueKey(1),
+          passwordValue: ValueNotifier(''),
+          patternValidation: '',
+          updateMatch: (key, match) {},
+        ),
+        PasswordDotValidationWidget(
+          label: '1 letra maiúscula',
+          key: ValueKey(2),
+          passwordValue: ValueNotifier(''),
+          patternValidation: '',
+          updateMatch: (key, match) {},
+        ),
+        PasswordDotValidationWidget(
+          label: '1 ou mais números',
+          key: ValueKey(3),
+          passwordValue: ValueNotifier(''),
+          patternValidation: '',
+          updateMatch: (key, match) {},
+        ),
+        PasswordDotValidationWidget(
+          label: '1 ou mais letras',
+          key: ValueKey(4),
+          passwordValue: ValueNotifier(''),
+          patternValidation: '',
+          updateMatch: (key, match) {},
+        ),
+        PasswordDotValidationWidget(
+          label: 'Senha igual a confirma senha',
+          key: ValueKey(5),
+          passwordValue: ValueNotifier(''),
+          patternValidation: '',
+          updateMatch: (key, match) {},
+        ),
       ],
     );
   }
