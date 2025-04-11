@@ -92,7 +92,7 @@ class SignupPage extends StatelessWidget {
   Widget _signUpText(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: const TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 16, color: Colors.white),
         children: [
           const TextSpan(text: 'Already have an account? '),
           TextSpan(

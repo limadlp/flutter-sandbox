@@ -4,26 +4,17 @@ import 'package:movies_app_clean_arch_bloc/core/network/api_client.dart';
 import 'package:movies_app_clean_arch_bloc/core/network/api_exception.dart';
 import 'package:movies_app_clean_arch_bloc/service_locator.dart';
 
-abstract interface class MovieService {
-  Future<Either> getTrendingMovies();
-  Future<Either> getNowPlayingMovies();
+abstract class TvService {
+  Future<Either> getPopularTv();
+
+  getTrendingMovies() {}
 }
 
-class MovieApiServiceImpl implements MovieService {
+class TVApiServiceImpl extends TvService {
   @override
-  Future<Either> getTrendingMovies() async {
+  Future<Either> getPopularTv() async {
     try {
       var response = await sl<ApiClient>().get(ApiUrl.trendingMovies);
-      return Right(response.data);
-    } on ApiException catch (e) {
-      return Left(e.message);
-    }
-  }
-
-  @override
-  Future<Either> getNowPlayingMovies() async {
-    try {
-      var response = await sl<ApiClient>().get(ApiUrl.popularTV);
       return Right(response.data);
     } on ApiException catch (e) {
       return Left(e.message);

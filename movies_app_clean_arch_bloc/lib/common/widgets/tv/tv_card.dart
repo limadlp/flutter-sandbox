@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app_clean_arch_bloc/core/configs/assets/app_images.dart';
 import 'package:movies_app_clean_arch_bloc/core/configs/theme/app_colors.dart';
-import 'package:movies_app_clean_arch_bloc/domain/movie/entities/movie_entity.dart';
+import 'package:movies_app_clean_arch_bloc/domain/tv/entities/tv_entity.dart';
 
-class MovieCard extends StatelessWidget {
-  final MovieEntity movieEntity;
-  const MovieCard({required this.movieEntity, super.key});
+class TvCard extends StatelessWidget {
+  final TvEntity tvEntity;
+  const TvCard({required this.tvEntity, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class MovieCard extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(
-                      AppImages.movieImageBasePath + movieEntity.posterPath!,
+                      AppImages.tvImageBasePath + tvEntity.posterPath!,
                     ),
                   ),
                   borderRadius: const BorderRadius.only(
@@ -47,7 +47,7 @@ class MovieCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      movieEntity.originalTitle ?? 'Untitled',
+                      tvEntity.name ?? 'Untitled',
                       style: const TextStyle(
                         fontSize: 16,
                         overflow: TextOverflow.ellipsis,
@@ -60,7 +60,7 @@ class MovieCard extends StatelessWidget {
                         const Icon(Icons.star, color: Colors.amber, size: 16),
                         const SizedBox(width: 4),
                         Text(
-                          ' ${movieEntity.voteAverage!.toStringAsFixed(1)}',
+                          ' ${tvEntity.voteAverage!.toStringAsFixed(1)}',
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,

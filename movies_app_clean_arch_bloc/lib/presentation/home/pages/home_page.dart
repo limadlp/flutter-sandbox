@@ -4,6 +4,7 @@ import 'package:movies_app_clean_arch_bloc/common/widgets/appbar/basic_app_bar.d
 import 'package:movies_app_clean_arch_bloc/core/configs/assets/app_vectors.dart';
 import 'package:movies_app_clean_arch_bloc/presentation/home/widgets/category_text_widget.dart';
 import 'package:movies_app_clean_arch_bloc/presentation/home/widgets/now_playing_movies_widget.dart';
+import 'package:movies_app_clean_arch_bloc/presentation/home/widgets/popular_tv.dart';
 import 'package:movies_app_clean_arch_bloc/presentation/home/widgets/trending_movies_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -27,6 +28,10 @@ class HomePage extends StatelessWidget {
               CategoryTextWidget(title: 'Now Playing'),
               SizedBox(height: 16),
               NowPlayingMoviesWidget(),
+              SizedBox(height: 16),
+              CategoryTextWidget(title: 'Popular TV'),
+              SizedBox(height: 16),
+              PopularTvWidget(),
               SizedBox(height: 16),
             ],
           ),

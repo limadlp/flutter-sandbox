@@ -101,7 +101,7 @@ class _SigninPageState extends State<SigninPage> {
   Widget _signUpText(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: const TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 16, color: Colors.white),
         children: [
           const TextSpan(text: 'Don\'t have an account? '),
           TextSpan(

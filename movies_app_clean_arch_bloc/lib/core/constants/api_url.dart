@@ -7,4 +7,5 @@ class ApiUrl {
   static const String signin = '$baseUrl${apiV}auth/signin';
   static const trendingMovies = '$baseUrl${apiV}movie/trending';
   static const nowPlayingMovies = '$baseUrl${apiV}movie/nowplaying';
+  static const popularTV = '$baseUrl${apiV}tv/popular';
 }
