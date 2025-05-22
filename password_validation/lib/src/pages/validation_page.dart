@@ -3,8 +3,16 @@ import 'package:password_validation/src/pages/widgets/password_validation_panel_
 import 'package:password_validation/src/shared/colors_app.dart';
 import 'package:password_validation/src/shared/custom_text_field_pwd.dart';
 
-class ValidationPage extends StatelessWidget {
+class ValidationPage extends StatefulWidget {
   const ValidationPage({super.key});
+
+  @override
+  State<ValidationPage> createState() => _ValidationPageState();
+}
+
+class _ValidationPageState extends State<ValidationPage> {
+  final passwordValidation = TextEditingController();
+  final confirmPasswordValidation = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +49,19 @@ class ValidationPage extends StatelessWidget {
                 CustomTextFieldPwd(
                   label: 'Senha',
                   backgroundColor: Colors.white,
-                  controller: TextEditingController(),
+                  controller: passwordValidation,
                 ),
                 SizedBox(height: 26),
                 CustomTextFieldPwd(
                   label: 'Confirmar senha',
                   backgroundColor: Colors.white,
-                  controller: TextEditingController(),
+                  controller: confirmPasswordValidation,
                 ),
                 SizedBox(height: 37),
-                PasswordValidationPanelWidget(),
+                PasswordValidationPanelWidget(
+                  passwordController: passwordValidation,
+                  confirmPasswordController: confirmPasswordValidation,
+                ),
                 SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {},

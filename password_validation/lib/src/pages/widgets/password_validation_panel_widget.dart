@@ -3,7 +3,14 @@ import 'package:password_validation/src/pages/widgets/password_dot_validation_wi
 import 'package:password_validation/src/shared/colors_app.dart';
 
 class PasswordValidationPanelWidget extends StatefulWidget {
-  const PasswordValidationPanelWidget({super.key});
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
+
+  const PasswordValidationPanelWidget({
+    super.key,
+    required this.passwordController,
+    required this.confirmPasswordController,
+  });
 
   @override
   State<PasswordValidationPanelWidget> createState() =>
@@ -12,6 +19,26 @@ class PasswordValidationPanelWidget extends StatefulWidget {
 
 class _PasswordValidationPanelWidgetState
     extends State<PasswordValidationPanelWidget> {
+  final validationRulesPasswordText = ValueNotifier('');
+  final linkedConfirmPasswordText = ValueNotifier('');
+
+  @override
+  void initState() {
+    final PasswordValidationPanelWidget(
+      :passwordController,
+      :confirmPasswordController,
+    ) = widget;
+
+    passwordController.addListener(() {
+      validationRulesPasswordText.value = passwordController.text;
+    });
+    confirmPasswordController.addListener(() {
+      linkedConfirmPasswordText.value = confirmPasswordController.text;
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,33 +56,32 @@ class _PasswordValidationPanelWidgetState
             ),
           ),
         ),
-
         PasswordDotValidationWidget(
           label: 'Mínimo de 8 caracteres',
           key: ValueKey(1),
-          passwordValue: ValueNotifier(''),
-          patternValidation: '',
+          passwordValue: validationRulesPasswordText,
+          patternValidation: r'^.{8,}$',
           updateMatch: (key, match) {},
         ),
         PasswordDotValidationWidget(
           label: '1 letra maiúscula',
           key: ValueKey(2),
-          passwordValue: ValueNotifier(''),
-          patternValidation: '',
+          passwordValue: validationRulesPasswordText,
+          patternValidation: r'^(?=.*[A-Z]).+$',
           updateMatch: (key, match) {},
         ),
         PasswordDotValidationWidget(
           label: '1 ou mais números',
           key: ValueKey(3),
-          passwordValue: ValueNotifier(''),
-          patternValidation: '',
+          passwordValue: validationRulesPasswordText,
+          patternValidation: r'^(?=.*\d).+$',
           updateMatch: (key, match) {},
         ),
         PasswordDotValidationWidget(
-          label: '1 ou mais letras',
+          label: '1 ou mais caracteres especiais',
           key: ValueKey(4),
-          passwordValue: ValueNotifier(''),
-          patternValidation: '',
+          passwordValue: validationRulesPasswordText,
+          patternValidation: r'^(?=.*[!@#\$%^&*()_\-+=\[\]{};:"\\|,.<>?/]).+$',
           updateMatch: (key, match) {},
         ),
         PasswordDotValidationWidget(
