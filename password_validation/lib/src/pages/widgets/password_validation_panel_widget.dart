@@ -20,7 +20,6 @@ class PasswordValidationPanelWidget extends StatefulWidget {
 class _PasswordValidationPanelWidgetState
     extends State<PasswordValidationPanelWidget> {
   final validationRulesPasswordText = ValueNotifier('');
-  final linkedConfirmPasswordText = ValueNotifier('');
 
   @override
   void initState() {
@@ -31,9 +30,6 @@ class _PasswordValidationPanelWidgetState
 
     passwordController.addListener(() {
       validationRulesPasswordText.value = passwordController.text;
-    });
-    confirmPasswordController.addListener(() {
-      linkedConfirmPasswordText.value = confirmPasswordController.text;
     });
 
     super.initState();
@@ -84,12 +80,18 @@ class _PasswordValidationPanelWidgetState
           patternValidation: r'^(?=.*[!@#\$%^&*()_\-+=\[\]{};:"\\|,.<>?/]).+$',
           updateMatch: (key, match) {},
         ),
-        PasswordDotValidationWidget(
-          label: 'Senha igual a confirma senha',
-          key: ValueKey(5),
-          passwordValue: ValueNotifier(''),
-          patternValidation: '',
-          updateMatch: (key, match) {},
+        ValueListenableBuilder(
+          valueListenable: widget.confirmPasswordController,
+          builder: (_, confirmPasswordText, child) {
+            return PasswordDotValidationWidget(
+              label: 'Senha igual a confirma senha',
+              key: ValueKey(5),
+              passwordValue: validationRulesPasswordText,
+              patternValidation:
+                  '^${RegExp.escape(confirmPasswordText.text)}\$',
+              updateMatch: (key, match) {},
+            );
+          },
         ),
       ],
     );
