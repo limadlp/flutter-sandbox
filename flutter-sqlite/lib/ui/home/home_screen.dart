@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sqlite_offline/data/services/local_database_service.dart';
 import 'package:sqlite_offline/domain/models/task/task.dart';
 import 'package:sqlite_offline/ui/home/widgets/header_widget.dart';
 
@@ -148,6 +149,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void initDatabase() {
+    final service = Provider.of<LocalDatabaseService>(
+      context,
+      listen: false,
+    );
+
+    service.init();
+  }
+
   late final taskViewModel = Provider.of<TaskViewModel>(
     context,
     listen: true,
@@ -156,6 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    initDatabase();
     Future.microtask(
       () {
         taskViewModel.loadTasks();
