@@ -149,13 +149,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void initDatabase() {
+  Future<void> initDatabase() async {
     final service = Provider.of<LocalDatabaseService>(
       context,
       listen: false,
     );
 
-    service.init();
+    await service.init();
+    taskViewModel.loadTasks();
   }
 
   late final taskViewModel = Provider.of<TaskViewModel>(
