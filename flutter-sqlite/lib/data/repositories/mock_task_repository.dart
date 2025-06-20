@@ -20,7 +20,7 @@ class MockTaskRepository implements TaskRepository {
 
   // Obter todas as tarefas
   @override
-  Future<List<Task>> getTasks() async {
+  Future<List<Task>> getTasks({bool? isCompleted}) async {
     // Simula um pequeno atraso para imitar o comportamento de um banco de dados
     await Future.delayed(const Duration(milliseconds: 200));
     return _mockDb.toList(); // Retorna uma cópia da lista

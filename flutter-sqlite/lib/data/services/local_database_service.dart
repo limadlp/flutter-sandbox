@@ -7,7 +7,6 @@ class LocalDatabaseService {
   static Database? _database;
 
   Future<void> init() async {
-    print('veio aqui');
     final path = await getDatabasesPath();
     final dbPath = join(path, 'tasks.db');
     //await deleteDatabase(dbPath);
@@ -23,7 +22,6 @@ class LocalDatabaseService {
         )
       ''');
       debugPrint("Tabela Tasks criada!");
-      print("veio aqui tambẽm");
     });
   }
 
@@ -33,8 +31,22 @@ class LocalDatabaseService {
     return id;
   }
 
-  Future<List<Task>> getTasks() async {
-    final result = await _database?.query('Tasks');
+  Future<List<Task>> getTasks({bool? isCompleted}) async {
+    List<String> where = [];
+    List whereArgs = [];
+
+    if (isCompleted != null) {
+      where.add('isCompleted = ?');
+      whereArgs.add(isCompleted ? 1 : 0);
+    }
+
+    final whereString = where.isNotEmpty ? where.join(' AND ') : null;
+
+    final result = await _database?.query(
+      'Tasks',
+      whereArgs: whereArgs,
+      where: whereString,
+    );
     final tasks = result?.map((e) => Task.fromMap(e)).toList();
     return tasks ?? [];
   }

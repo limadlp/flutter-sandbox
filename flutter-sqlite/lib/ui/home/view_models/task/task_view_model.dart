@@ -25,8 +25,8 @@ class TaskViewModel extends ChangeNotifier {
   List<Task>? _tasks;
   List<Task>? get tasks => _tasks;
 
-  Future<void> loadTasks() async {
-    _tasks = await _getTasksUseCase();
+  Future<void> loadTasks({bool? isCompleted}) async {
+    _tasks = await _getTasksUseCase(isCompleted: isCompleted);
     notifyListeners();
   }
 
