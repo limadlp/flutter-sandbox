@@ -42,6 +42,11 @@ class TaskCard extends StatelessWidget {
           Row(
             children: [
               _Tag(
+                label: task.priority,
+                color: Colors.red,
+              ),
+              const SizedBox(width: 8.0),
+              _Tag(
                 icon: Icons.home,
                 label: task.category,
                 color: Colors.blue,

@@ -20,16 +20,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> showTaskModal({
     required BuildContext context,
     Task? existingTask, // Caso seja uma edição, a tarefa será passada aqui
-    required void Function(String title, String description, String category)
-        onSubmit,
+    required void Function(
+      String title,
+      String description,
+      String category,
+      String priority,
+    ) onSubmit,
   }) async {
     final formKey = GlobalKey<FormState>();
-    final TextEditingController titleController =
-        TextEditingController(text: existingTask?.title ?? '');
-    final TextEditingController descriptionController =
-        TextEditingController(text: existingTask?.description ?? '');
-    final TextEditingController categoryController =
-        TextEditingController(text: existingTask?.category ?? '');
+    final TextEditingController titleController = TextEditingController(
+      text: existingTask?.title ?? '',
+    );
+    final TextEditingController descriptionController = TextEditingController(
+      text: existingTask?.description ?? '',
+    );
+    final TextEditingController categoryController = TextEditingController(
+      text: existingTask?.category ?? '',
+    );
+    final TextEditingController priorityController = TextEditingController(
+      text: existingTask?.priority ?? '',
+    );
 
     await showModalBottomSheet(
       context: context,
@@ -102,6 +112,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
+                      return 'Por favor, insira a prioridade';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                // Campo Prioridade
+                TextFormField(
+                  controller: priorityController,
+                  decoration: const InputDecoration(
+                    labelText: 'Prioridade',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
                       return 'Por favor, insira a categoria';
                     }
                     return null;
@@ -128,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           titleController.text,
                           descriptionController.text,
                           categoryController.text,
+                          priorityController.text,
                         );
                         Navigator.pop(context);
                       }
@@ -190,8 +216,13 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 showTaskModal(
                   context: context,
-                  onSubmit: (title, description, category) {
-                    taskViewModel.addTask(title, description, category);
+                  onSubmit: (title, description, category, priority) {
+                    taskViewModel.addTask(
+                      title,
+                      description,
+                      category,
+                      priority,
+                    );
                   },
                 );
               },
@@ -267,13 +298,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       showTaskModal(
                         context: context,
                         existingTask: task,
-                        onSubmit: (title, description, category) {
+                        onSubmit: (title, description, category, priority) {
                           final updatedTask = Task(
                             id: task.id,
                             title: title,
                             description: description,
                             category: category,
                             isCompleted: task.isCompleted,
+                            priority: priority,
                           );
                           taskViewModel.updateTask(
                             updatedTask,

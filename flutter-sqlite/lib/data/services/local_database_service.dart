@@ -10,7 +10,7 @@ class LocalDatabaseService {
     final path = await getDatabasesPath();
     final dbPath = join(path, 'tasks.db');
     //await deleteDatabase(dbPath);
-    _database = await openDatabase(dbPath, version: 1, onCreate: (db, version) {
+    _database = await openDatabase(dbPath, version: 2, onCreate: (db, version) {
       debugPrint("Banco de dados criado!");
       db.execute('''
         CREATE TABLE Tasks(
@@ -23,7 +23,12 @@ class LocalDatabaseService {
       ''');
       debugPrint("Tabela Tasks criada!");
     }, onUpgrade: (db, oldVersion, newVersion) {
-      print("new version: $newVersion, old version: $oldVersion");
+      if (oldVersion == 1 && newVersion == 2) {
+        db.execute('ALTER TABLE tasks ADD COLUMN priority TEXT DEFAULT medio');
+        debugPrint(
+          "Database upgraded from version \$oldVersion to \$newVersion, priority column added.",
+        );
+      }
     }, onDowngrade: (db, oldVersion, newVersion) {
       print("Downgrading from version $oldVersion to $newVersion");
     });

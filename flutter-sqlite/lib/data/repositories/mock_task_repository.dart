@@ -12,6 +12,7 @@ class MockTaskRepository implements TaskRepository {
       title: task.title,
       description: task.description,
       category: task.category,
+      priority: task.priority,
       isCompleted: task.isCompleted,
     );
     _mockDb.add(newTask);
