@@ -22,6 +22,10 @@ class LocalDatabaseService {
         )
       ''');
       debugPrint("Tabela Tasks criada!");
+    }, onUpgrade: (db, oldVersion, newVersion) {
+      print("new version: $newVersion, old version: $oldVersion");
+    }, onDowngrade: (db, oldVersion, newVersion) {
+      print("Downgrading from version $oldVersion to $newVersion");
     });
   }
 
@@ -49,5 +53,24 @@ class LocalDatabaseService {
     );
     final tasks = result?.map((e) => Task.fromMap(e)).toList();
     return tasks ?? [];
+  }
+
+  Future<int?> updateTask(Task task) async {
+    final result = await _database?.update(
+      'Tasks',
+      task.toMap(),
+      where: 'id = ?',
+      whereArgs: [task.id],
+    );
+    return result;
+  }
+
+  Future<int?> deleteTask(int taskId) async {
+    final result = await _database?.delete(
+      'Tasks',
+      where: 'id = ?',
+      whereArgs: [taskId],
+    );
+    return result;
   }
 }

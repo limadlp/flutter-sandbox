@@ -259,7 +259,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   final task = taskViewModel.tasks![index];
                   return TaskCard(
                     task: task,
-                    onToggleStatus: () => taskViewModel.toggleTaskStatus(task),
+                    onToggleStatus: () => taskViewModel.toggleTaskStatus(
+                      task,
+                      isCompleted: filterIsCompleted,
+                    ),
                     onEdit: () {
                       showTaskModal(
                         context: context,
@@ -272,7 +275,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             category: category,
                             isCompleted: task.isCompleted,
                           );
-                          taskViewModel.updateTask(updatedTask);
+                          taskViewModel.updateTask(
+                            updatedTask,
+                            isCompleted: filterIsCompleted,
+                          );
                         },
                       );
                     },
