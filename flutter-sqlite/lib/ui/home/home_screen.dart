@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       String description,
       String category,
       String priority,
+      String? responsibleName,
     ) onSubmit,
   }) async {
     final formKey = GlobalKey<FormState>();
@@ -39,6 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     final TextEditingController priorityController = TextEditingController(
       text: existingTask?.priority ?? '',
+    );
+    final TextEditingController responsibleNameController =
+        TextEditingController(
+      text: existingTask?.responsibleName ?? '',
     );
 
     await showModalBottomSheet(
@@ -118,6 +123,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
                 const SizedBox(height: 16.0),
+
+                // Nome do responsável
+                TextFormField(
+                  controller: responsibleNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nome do responsável',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira a prioridade';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
                 // Campo Prioridade
                 TextFormField(
                   controller: priorityController,
@@ -154,6 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           descriptionController.text,
                           categoryController.text,
                           priorityController.text,
+                          responsibleNameController.text,
                         );
                         Navigator.pop(context);
                       }
@@ -216,12 +238,19 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 showTaskModal(
                   context: context,
-                  onSubmit: (title, description, category, priority) {
+                  onSubmit: (
+                    title,
+                    description,
+                    category,
+                    priority,
+                    responsibleName,
+                  ) {
                     taskViewModel.addTask(
                       title,
                       description,
                       category,
                       priority,
+                      responsibleName,
                     );
                   },
                 );
@@ -298,7 +327,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       showTaskModal(
                         context: context,
                         existingTask: task,
-                        onSubmit: (title, description, category, priority) {
+                        onSubmit: (title, description, category, priority,
+                            responsibleName) {
                           final updatedTask = Task(
                             id: task.id,
                             title: title,
@@ -306,6 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             category: category,
                             isCompleted: task.isCompleted,
                             priority: priority,
+                            responsibleName: responsibleName,
                           );
                           taskViewModel.updateTask(
                             updatedTask,

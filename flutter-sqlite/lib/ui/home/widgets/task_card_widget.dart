@@ -118,6 +118,13 @@ class TaskCard extends StatelessWidget {
               ),
             ],
           ),
+          if (task.responsibleName != null)
+            _Tag(
+              icon: Icons.person,
+              label: task.responsibleName!,
+              color: Colors.blue,
+            ),
+          const SizedBox(width: 8.0),
         ],
       ),
     );
