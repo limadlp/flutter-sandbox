@@ -6,10 +6,20 @@ import 'package:sqlite_offline/domain/models/task/task.dart';
 class LocalDatabaseService {
   static Database? _database;
 
-  Future<void> init() async {
-    final path = await getDatabasesPath();
-    final dbPath = join(path, 'tasks.db');
-    //await deleteDatabase(dbPath);
+  Database? get database => _database;
+
+  Future<void> init({
+    bool inMemoryDatabase = false,
+  }) async {
+    late String dbPath;
+    if (inMemoryDatabase) {
+      dbPath = inMemoryDatabasePath;
+    } else {
+      final path = await getDatabasesPath();
+      dbPath = join(path, 'tasks.db');
+      //await deleteDatabase(dbPath);
+    }
+
     _database =
         await openDatabase(dbPath, version: 3, onCreate: (db, version) async {
       debugPrint("Banco de dados criado!");
@@ -100,7 +110,8 @@ class LocalDatabaseService {
       whereArgs.add(isCompleted ? 1 : 0);
     }
 
-    final whereString = where.isNotEmpty ? where.join(' AND ') : null;
+    final whereString =
+        where.isNotEmpty ? 'WHERE ${where.join(' AND ')}' : null;
 
     // final result = await _database?.query(
     //   'Tasks',
@@ -139,5 +150,16 @@ class LocalDatabaseService {
       whereArgs: [taskId],
     );
     return result;
+  }
+
+  Future<Task?> getTaskById(int taskId) async {
+    final result = await _database?.query(
+      'Tasks',
+      where: 'id = ?',
+      whereArgs: [taskId],
+    );
+
+    final tasks = result?.map((e) => Task.fromMap(e)).toList();
+    return tasks?.isNotEmpty ?? false ? tasks?.first : null;
   }
 }

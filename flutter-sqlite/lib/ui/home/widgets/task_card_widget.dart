@@ -56,7 +56,7 @@ class TaskCard extends StatelessWidget {
                 label: isCompleted ? 'Feito' : 'Fazer',
                 color: isCompleted ? Colors.green : Colors.red,
               ),
-              Spacer(),
+              const Spacer(),
               GestureDetector(
                 onTap: onToggleStatus,
                 child: Container(
