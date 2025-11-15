@@ -1,9 +1,7 @@
-import 'dart:async';
-import 'dart:ui';
-
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame/palette.dart';
+import 'package:flame/parallax.dart';
+import 'package:flappy_flight/component/ship.dart';
 
 class FlappyFlightGame extends FlameGame<FlappyFlightWorld> {
   FlappyFlightGame()
@@ -14,46 +12,40 @@ class FlappyFlightGame extends FlameGame<FlappyFlightWorld> {
           height: 1000,
         ),
       );
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-  }
-
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-  }
 }
 
 class FlappyFlightWorld extends World {
   @override
   void onLoad() {
     super.onLoad();
+    add(FligthBackground());
     add(Ship());
   }
 }
 
-class Ship extends PositionComponent {
-  Ship()
-    : super(
-        position: Vector2(0, 0),
-        size: Vector2(20, 20),
-      );
-
+class FligthBackground extends ParallaxComponent<FlappyFlightGame> {
   @override
-  void update(double dt) {
-    super.update(dt);
-    position = Vector2.zero();
-    angle += 0.01;
-  }
-
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-    canvas.drawRect(
-      toRect(),
-      BasicPalette.blue.paint(),
+  Future<void> onLoad() async {
+    anchor = Anchor.center;
+    parallax = await game.loadParallax(
+      [
+        // ParallaxImageData('background/layer1-sky.png'),
+        // ParallaxImageData('background/layer2-clouds.png'),
+        // ParallaxImageData('background/layer3-clouds.png'),
+        // ParallaxImageData('background/layer4-clouds.png'),
+        // ParallaxImageData('background/layer5-huge-clouds.png'),
+        ParallaxImageData('background/l1_d2.png'),
+        ParallaxImageData('background/l2_d.png'),
+        ParallaxImageData('background/l3_d.png'),
+        ParallaxImageData('background/l4_d.png'),
+        ParallaxImageData('background/l6_d.png'),
+        ParallaxImageData('background/l5_d.png'),
+        ParallaxImageData('background/l7.png'),
+        //ParallaxImageData('background/layer6-bushes.png'),
+        //ParallaxImageData('background/layer7-bushes.png'),
+      ],
+      baseVelocity: Vector2(1, 0),
+      velocityMultiplierDelta: Vector2(1.7, 0),
     );
   }
 }
