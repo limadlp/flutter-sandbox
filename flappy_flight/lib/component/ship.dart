@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flappy_flight/component/hidden_coin.dart';
+import 'package:flappy_flight/component/pipe.dart';
+import 'package:flappy_flight/flappy_flight_game.dart';
 
-class Ship extends PositionComponent {
+class Ship extends PositionComponent with CollisionCallbacks, HasGameReference<FlappyFlightGame> {
   final double maxY;
   Ship({required this.maxY})
     : super(
@@ -22,8 +26,16 @@ class Ship extends PositionComponent {
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    //debugMode = true;
+    debugMode = true;
     _dashSprite = await Sprite.load('ship.png');
+    final radius = size.x / 2;
+    add(
+      CircleHitbox(
+        radius: radius * 0.8,
+        position: Vector2(0, 0),
+        // anchor: Anchor.center,
+      ),
+    );
   }
 
   void jump() {
@@ -53,4 +65,26 @@ class Ship extends PositionComponent {
       size: size,
     );
   }
+
+  @override
+  void onCollision(Set<Vector2> points, PositionComponent other) {
+    super.onCollision(points, other);
+    if (other is HiddenCoin) {
+      print('let us increase the coin!!!');
+      game.world.increaseScore();
+      other.removeFromParent();
+    } else if (other is Pipe) {
+      print('Game Over!!!');
+    }
+  }
+
+  // @override
+  // void onCollisionEnd(PositionComponent other) {
+  //   super.onCollisionEnd(other);
+  //   if (other is ScreenHitbox) {
+  //     //...
+  //   } else if (other is YourOtherComponent) {
+  //     //...
+  //   }
+  //}
 }

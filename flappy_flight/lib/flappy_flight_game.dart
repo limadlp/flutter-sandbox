@@ -9,7 +9,7 @@ import 'package:flappy_flight/component/ship.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-class FlappyFlightGame extends FlameGame<FlappyFlightWorld> with KeyboardEvents {
+class FlappyFlightGame extends FlameGame<FlappyFlightWorld> with KeyboardEvents, HasCollisionDetection {
   FlappyFlightGame()
     : super(
         world: FlappyFlightWorld(),
@@ -40,14 +40,20 @@ class FlappyFlightWorld extends World with TapCallbacks, HasGameReference<Flappy
   late Ship _ship;
   late PipePair _lastPipe;
   static const _pipesDistance = 400.0;
+  int _score = 0;
+  late TextComponent _scoreText;
 
   @override
   void onLoad() {
     super.onLoad();
+    debugMode = true;
 
     add(FligthParallaxBackground());
     add(_ship = Ship(maxY: 1000));
     _generatePipes(fromX: -350);
+    game.camera.viewfinder.add(
+      _scoreText = TextComponent(text: _score.toString(), position: Vector2(0, -(game.size.y / 2))),
+    );
   }
 
   void _generatePipes({
@@ -79,9 +85,14 @@ class FlappyFlightWorld extends World with TapCallbacks, HasGameReference<Flappy
     _ship.jump();
   }
 
+  void increaseScore() {
+    _score += 1;
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
+    _scoreText.text = _score.toString();
     if (_ship.x >= _lastPipe.x) {
       _generatePipes(
         fromX: _pipesDistance,
