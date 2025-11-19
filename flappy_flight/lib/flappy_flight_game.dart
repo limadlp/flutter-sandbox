@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flappy_flight/bloc/game/game_cubit.dart';
 import 'package:flappy_flight/component/flight_parallax_background.dart';
 import 'package:flappy_flight/component/pipe_pair.dart';
 import 'package:flappy_flight/component/ship.dart';
@@ -10,7 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class FlappyFlightGame extends FlameGame<FlappyFlightWorld> with KeyboardEvents, HasCollisionDetection {
-  FlappyFlightGame()
+  FlappyFlightGame(this.gameCubit)
     : super(
         world: FlappyFlightWorld(),
         camera: CameraComponent.withFixedResolution(
@@ -18,6 +20,8 @@ class FlappyFlightGame extends FlameGame<FlappyFlightWorld> with KeyboardEvents,
           height: 1000,
         ),
       );
+
+  final GameCubit gameCubit;
 
   @override
   KeyEventResult onKeyEvent(
@@ -37,22 +41,49 @@ class FlappyFlightGame extends FlameGame<FlappyFlightWorld> with KeyboardEvents,
 }
 
 class FlappyFlightWorld extends World with TapCallbacks, HasGameReference<FlappyFlightGame> {
-  late Ship _ship;
-  late PipePair _lastPipe;
-  static const _pipesDistance = 400.0;
-  int _score = 0;
-  late TextComponent _scoreText;
+  late FlappyFligthRootComponent _rootComponent;
 
   @override
   void onLoad() {
     super.onLoad();
+    add(
+      FlameBlocProvider<GameCubit, GameState>(
+        create: () => game.gameCubit,
+        children: [
+          _rootComponent = FlappyFligthRootComponent(),
+        ],
+      ),
+    );
+  }
+
+  void onSpaceDown() {
+    _rootComponent.onSpaceDown();
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    super.onTapDown(event);
+    _rootComponent.onTapDown(event);
+  }
+}
+
+class FlappyFligthRootComponent extends Component
+    with HasGameReference<FlappyFlightGame>, FlameBlocReader<GameCubit, GameState> {
+  late Ship _ship;
+  late PipePair _lastPipe;
+  static const _pipesDistance = 400.0;
+  late TextComponent _scoreText;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
     debugMode = true;
 
     add(FligthParallaxBackground());
     add(_ship = Ship(maxY: 1000));
     _generatePipes(fromX: -350);
     game.camera.viewfinder.add(
-      _scoreText = TextComponent(text: _score.toString(), position: Vector2(0, -(game.size.y / 2))),
+      _scoreText = TextComponent(position: Vector2(0, -(game.size.y / 2))),
     );
   }
 
@@ -75,24 +106,18 @@ class FlappyFlightWorld extends World with TapCallbacks, HasGameReference<Flappy
     });
   }
 
-  @override
-  void onTapDown(TapDownEvent event) {
-    super.onTapDown(event);
-    _ship.jump();
-  }
-
   void onSpaceDown() {
     _ship.jump();
   }
 
-  void increaseScore() {
-    _score += 1;
+  void onTapDown(TapDownEvent event) {
+    _ship.jump();
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    _scoreText.text = _score.toString();
+    _scoreText.text = bloc.state.currentScore.toString();
     if (_ship.x >= _lastPipe.x) {
       _generatePipes(
         fromX: _pipesDistance,

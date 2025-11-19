@@ -3,15 +3,18 @@ import 'dart:ui';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flappy_flight/bloc/game/game_cubit.dart';
 import 'package:flappy_flight/component/hidden_coin.dart';
 import 'package:flappy_flight/component/pipe.dart';
 import 'package:flappy_flight/flappy_flight_game.dart';
 
-class Ship extends PositionComponent with CollisionCallbacks, HasGameReference<FlappyFlightGame> {
+class Ship extends PositionComponent
+    with CollisionCallbacks, HasGameReference<FlappyFlightGame>, FlameBlocReader<GameCubit, GameState> {
   final double maxY;
   Ship({required this.maxY})
     : super(
-        position: Vector2(0, 0),
+        position: Vector2(-200, 0),
         size: Vector2.all(80),
         anchor: Anchor.center,
         priority: 10,
@@ -39,12 +42,18 @@ class Ship extends PositionComponent with CollisionCallbacks, HasGameReference<F
   }
 
   void jump() {
+    if (bloc.state.currentPlayingState != PlayingState.playing) {
+      return;
+    }
     _velocity = _jumpForce;
   }
 
   @override
   Future<void> update(double dt) async {
     super.update(dt);
+    if (bloc.state.currentPlayingState != PlayingState.playing) {
+      return;
+    }
     _velocity += _gravity * dt;
     position += _velocity * dt;
 
@@ -70,11 +79,10 @@ class Ship extends PositionComponent with CollisionCallbacks, HasGameReference<F
   void onCollision(Set<Vector2> points, PositionComponent other) {
     super.onCollision(points, other);
     if (other is HiddenCoin) {
-      print('let us increase the coin!!!');
-      game.world.increaseScore();
+      bloc.increaseScore();
       other.removeFromParent();
     } else if (other is Pipe) {
-      print('Game Over!!!');
+      bloc.gameOver();
     }
   }
 
