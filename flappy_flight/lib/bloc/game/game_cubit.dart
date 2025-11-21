@@ -30,4 +30,13 @@ class GameCubit extends Cubit<GameState> {
       ),
     );
   }
+
+  void restartGame() {
+    emit(
+      state.copyWith(
+        currentPlayingState: PlayingState.none,
+        currentScore: 0,
+      ),
+    );
+  }
 }

@@ -14,7 +14,7 @@ class Ship extends PositionComponent
   final double maxY;
   Ship({required this.maxY})
     : super(
-        position: Vector2(-200, 0),
+        position: Vector2(0, 0),
         size: Vector2.all(80),
         anchor: Anchor.center,
         priority: 10,
@@ -29,9 +29,9 @@ class Ship extends PositionComponent
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    debugMode = true;
     _dashSprite = await Sprite.load('ship.png');
     final radius = size.x / 2;
+    //final center = size / 2;
     add(
       CircleHitbox(
         radius: radius * 0.8,
@@ -39,13 +39,6 @@ class Ship extends PositionComponent
         // anchor: Anchor.center,
       ),
     );
-  }
-
-  void jump() {
-    if (bloc.state.currentPlayingState != PlayingState.playing) {
-      return;
-    }
-    _velocity = _jumpForce;
   }
 
   @override
@@ -66,6 +59,13 @@ class Ship extends PositionComponent
     }
   }
 
+  void jump() {
+    if (bloc.state.currentPlayingState != PlayingState.playing) {
+      return;
+    }
+    _velocity = _jumpForce;
+  }
+
   @override
   void render(Canvas canvas) {
     super.render(canvas);
@@ -78,6 +78,9 @@ class Ship extends PositionComponent
   @override
   void onCollision(Set<Vector2> points, PositionComponent other) {
     super.onCollision(points, other);
+    if (bloc.state.currentPlayingState != PlayingState.playing) {
+      return;
+    }
     if (other is HiddenCoin) {
       bloc.increaseScore();
       other.removeFromParent();
@@ -85,14 +88,4 @@ class Ship extends PositionComponent
       bloc.gameOver();
     }
   }
-
-  // @override
-  // void onCollisionEnd(PositionComponent other) {
-  //   super.onCollisionEnd(other);
-  //   if (other is ScreenHitbox) {
-  //     //...
-  //   } else if (other is YourOtherComponent) {
-  //     //...
-  //   }
-  //}
 }
