@@ -2,6 +2,8 @@ import 'package:flame/game.dart';
 import 'package:flappy_flight/bloc/game/game_cubit.dart';
 import 'package:flappy_flight/flappy_flight_game.dart';
 import 'package:flappy_flight/widget/game_over_widget.dart';
+import 'package:flappy_flight/widget/tap_to_play.dart';
+import 'package:flappy_flight/widget/top_score.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +17,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   late FlappyFlightGame _flappyFlightGame;
   late GameCubit gameCubit;
-    PlayingState? _latestState;
+  PlayingState? _latestState;
 
   @override
   void initState() {
@@ -28,8 +30,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<GameCubit, GameState>(
       listener: (context, state) {
-        if (state.currentPlayingState == PlayingState.none &&
-            _latestState == PlayingState.gameOver) {
+        if (state.currentPlayingState.isIdle && (_latestState?.isGameOver ?? false)) {
           setState(() {
             _flappyFlightGame = FlappyFlightGame(gameCubit);
           });
@@ -42,19 +43,13 @@ class _MainPageState extends State<MainPage> {
           body: Stack(
             children: [
               GameWidget(game: _flappyFlightGame),
-              if (state.currentPlayingState == PlayingState.gameOver) GameOverWidget(),
-              if (state.currentPlayingState == PlayingState.none)
-                const Align(
+              if (state.currentPlayingState.isGameOver) GameOverWidget(),
+              if (state.currentPlayingState.isIdle)
+                Align(
                   alignment: Alignment(0, 0.2),
-                  child: Text(
-                    'PRESS TO START',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28,
-                    ),
-                  ),
+                  child: TapToPlay(),
                 ),
+              if (state.currentPlayingState.isNotGameOver) const TopScore(),
             ],
           ),
         );

@@ -4,7 +4,7 @@ import 'package:flame/components.dart';
 class HiddenCoin extends PositionComponent {
   HiddenCoin({required super.position})
     : super(
-        size: Vector2(30, 30),
+        size: Vector2(40, 40),
         anchor: Anchor.center,
       );
 

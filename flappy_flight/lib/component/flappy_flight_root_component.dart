@@ -14,7 +14,6 @@ class FlappyFligthRootComponent extends Component
   late Ship _ship;
   late PipePair _lastPipe;
   static const _pipesDistance = 400.0;
-  late TextComponent _scoreText;
 
   @override
   Future<void> onLoad() async {
@@ -24,9 +23,6 @@ class FlappyFligthRootComponent extends Component
     add(FligthParallaxBackground());
     add(_ship = Ship(maxY: 1000));
     _generatePipes(fromX: 350);
-    game.camera.viewfinder.add(
-      _scoreText = TextComponent(position: Vector2(0, -(game.size.y / 2))),
-    );
   }
 
   void _generatePipes({
@@ -40,7 +36,7 @@ class FlappyFligthRootComponent extends Component
     }
   }
 
-  void _removePipes() {
+  void _removeLastPipes() {
     final pipes = children.whereType<PipePair>();
     final shouldBeRemoved = max(pipes.length - 5, 0);
     pipes.take(shouldBeRemoved).forEach((pipe) {
@@ -59,7 +55,7 @@ class FlappyFligthRootComponent extends Component
   }
 
   void _checkToStart() {
-    if (bloc.state.currentPlayingState == PlayingState.none) {
+    if (bloc.state.currentPlayingState.isIdle) {
       bloc.startPlaying();
     }
   }
@@ -67,12 +63,11 @@ class FlappyFligthRootComponent extends Component
   @override
   void update(double dt) {
     super.update(dt);
-    _scoreText.text = bloc.state.currentScore.toString();
     if (_ship.x >= _lastPipe.x) {
       _generatePipes(
         fromX: _pipesDistance,
       );
-      _removePipes();
+      _removeLastPipes();
     }
     //game.camera.viewfinder.zoom = 0.3;
   }

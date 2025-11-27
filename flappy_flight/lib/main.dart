@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       create: (context) => GameCubit(),
       child: MaterialApp(
         title: 'Flappy Flight',
+        theme: ThemeData(fontFamily: 'Chewy'),
         debugShowCheckedModeBanner: false,
         home: MainPage(),
       ),

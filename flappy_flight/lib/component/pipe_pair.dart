@@ -29,7 +29,7 @@ class PipePair extends PositionComponent with FlameBlocReader<GameCubit, GameSta
     switch (bloc.state.currentPlayingState) {
       case PlayingState.paused:
       case PlayingState.gameOver:
-      case PlayingState.none:
+      case PlayingState.idle:
         break;
       case PlayingState.playing:
         position.x -= speed * dt;
